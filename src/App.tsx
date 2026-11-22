@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { CssOrrery } from "./components/CssOrrery";
 import { HabitForm } from "./components/HabitForm";
 import { HabitList } from "./components/HabitList";
@@ -28,6 +28,15 @@ export default function App({ now = () => new Date(), repository, webgl }: Props
   const store = useHabits(repo, today);
   const summary = overview(store.habits, today);
   const allDone = summary.total > 0 && summary.doneToday === summary.total;
+  const { select } = store;
+
+  useEffect(() => {
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === "Escape") select(null);
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [select]);
 
   const fallback = (
     <CssOrrery habits={store.habits} today={today} selectedId={store.selected?.id ?? null} onSelect={store.select} />

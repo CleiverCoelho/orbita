@@ -48,7 +48,7 @@ describe("lista de hábitos do dia", () => {
 
   it("seleciona o hábito ao clicar no nome", async () => {
     const props = renderList();
-    await userEvent.click(screen.getByRole("button", { name: "Correr 0 dias" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Correr/ }));
     expect(props.onSelect).toHaveBeenCalledWith("b");
   });
 

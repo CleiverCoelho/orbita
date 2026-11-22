@@ -80,6 +80,16 @@ describe("aplicação Órbita", () => {
     expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
   });
 
+  it("fecha os detalhes do planeta com a tecla Esc", async () => {
+    render(<App now={now} repository={memoryRepository()} webgl={false} />);
+    await createPlanet("Pintar");
+    expect(screen.getByRole("complementary")).toBeInTheDocument();
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+  });
+
   it("importa um backup substituindo os planetas atuais", async () => {
     render(<App now={now} repository={memoryRepository()} webgl={false} />);
     const backup = JSON.stringify([
